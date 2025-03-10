@@ -194,13 +194,13 @@ export const convertTemplateTableToHTML = (tables: TableInstance[]): string => {
   `;
 
     return `
-    <div style="position: relative; display: flex; gap: 5px;">
-      <div style="position: relative; width: calc(100% + 15px); overflow: hidden;">
+    <div style="position: relative; display: flex; gap: 5px; flex-direction: column;">
+      <div style="position: relative; width: calc(100% + 15px); overflow: hidden; margin-bottom: 25px;">
         <div class="maskLeft" style="${maskLeftStyle}"></div>
         <div style="width: 100%; overflow-x: auto; position: relative;">
           <table style="width: ${getTableWidth(
             table.type
-          )}; border-collapse: collapse; background-color: #181818;">
+          )}; border-collapse: collapse!important; background-color: #181818;">
             <tbody>
               ${table.data.rows
                 .map(
