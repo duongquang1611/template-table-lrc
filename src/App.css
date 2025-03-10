@@ -1,17 +1,5 @@
 .container {
-  background-color: pink;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  gap: 20px;
-  flex-direction: column;
 }
 
 .avatar {
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-  transform: translate(-50%, -50%);
 }

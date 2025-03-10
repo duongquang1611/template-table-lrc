@@ -1,4 +1,4 @@
-// import "./styles.css";
+import React, { memo } from "react";
 
 interface TableCell {
   value: string;
@@ -12,255 +12,235 @@ interface TableData {
   rows: TableRow[];
 }
 
-export enum TemplateTableType {
-  TABLE_1 = "TABLE_1",
-  TABLE_2 = "TABLE_2",
-  TABLE_3 = "TABLE_3",
-  TABLE_4 = "TABLE_4",
-}
-
-export interface TableInstance {
+interface Table {
   id: string;
-  type: TemplateTableType;
+  type: "TABLE_1" | "TABLE_2" | "TABLE_3" | "TABLE_4";
   data: TableData;
 }
 
-export const convertTemplateTableToHTML = (tables: TableInstance[]): string => {
-  // ... existing code ...
-
-  const generateTableHTML = (table: TableInstance) => {
-    const TABLE_WIDTH = 200;
-    const TABLE_WIDTH_MOBILE = 120;
-    const getTableWidth = (type: TemplateTableType): string => {
-      const isMobile = window.innerWidth <= 768; // md breakpoint
-      const cellWidth = isMobile ? TABLE_WIDTH_MOBILE : TABLE_WIDTH;
-      switch (type) {
-        case TemplateTableType.TABLE_1:
-          return isMobile ? `calc(6 * ${TABLE_WIDTH_MOBILE}px + 5px)` : "100%";
-        case TemplateTableType.TABLE_2:
-          return "100%";
-        case TemplateTableType.TABLE_3:
-        case TemplateTableType.TABLE_4:
-          return `calc(3 * ${cellWidth}px + 2px)`;
-        default:
-          return "100%";
+const generateTablesHTML = (tablesArr: Table[]) => {
+  const styles = `
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin-top: 5px;
       }
-    };
 
-    const getCellStyle = (
-      rowIndex: number,
-      cellIndex: number,
-      type: TemplateTableType
-    ): string => {
-      const isMobile = window.innerWidth <= 768;
-      const baseStyle = `
-        padding: 10px;
+      .tableCustom {
+        width: 100%;
+        overflow-x: auto;
+        position: relative;
+      }
+
+      .tableCustom::-webkit-scrollbar {
+        width: 5px;
+        height: 10px;
+        background-color: #181818;
+        border-radius: 8px;
+      }
+
+      .tableCustom::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 8px;
+      }
+
+      @media (max-width: 768px) {
+        .tableCustom::-webkit-scrollbar {
+          border-radius: 4px;
+        }
+      }
+
+      .tableCustom table {
+        width: 100%;
+        background-color: #181818;
+        border-collapse: collapse;
+      }
+
+      .tableCustom table td {
         border: 1px inset #fff;
-        text-align: center;
-        min-width: ${isMobile ? TABLE_WIDTH_MOBILE : TABLE_WIDTH}px;
-        color: #000;
+        padding: 10px;
+        font-size: 16px;
         font-weight: 500;
-        background: #fff;
-        width: fit-content;
-      `;
-
-      const firstColumnStyle = `
-        width: 150px !important;
-        text-align: left;
-        ${isMobile ? "min-width: " + TABLE_WIDTH_MOBILE + "px !important" : ""};
-      `;
-
-      const cellBiggerThan0AndNotMobileTable1 = `${baseStyle} min-width: 0 !important; width: fit-content;`;
-      const cellBiggerThan0AndNotMobileTable2 = `${baseStyle} min-width: 0 !important; width: fit-content;`;
-      switch (type) {
-        case TemplateTableType.TABLE_1: {
-          // Match with .table1 styles
-          if (cellIndex === 0) {
-            return `${baseStyle} ${firstColumnStyle} background: #d9d9d9;`;
-          }
-          if (rowIndex === 2) {
-            return `${baseStyle} background: #181818; color: #f1f1f1;`;
-          }
-
-          switch (cellIndex) {
-            case 1:
-              return `${cellBiggerThan0AndNotMobileTable1} background: #91d051;`;
-            case 2:
-              return `${cellBiggerThan0AndNotMobileTable1} background: #ffff00;`;
-            case 3:
-              return `${cellBiggerThan0AndNotMobileTable1} background: #fec000;`;
-            case 4:
-            case 5:
-              return `${cellBiggerThan0AndNotMobileTable1} background: #ff0100;`;
-            default:
-              return baseStyle;
-          }
-        }
-
-        case TemplateTableType.TABLE_2: {
-          // Match with .table2 styles
-          if (cellIndex === 0) {
-            return `${baseStyle} ${firstColumnStyle} text-align: left; background: #181818; color: #f1f1f1;`;
-          }
-          if (rowIndex === 0) {
-            return `${cellBiggerThan0AndNotMobileTable2} background: #d9d9d9;`;
-          }
-          if (rowIndex === 1) {
-            return `${cellBiggerThan0AndNotMobileTable2} background: #181818; color: #f1f1f1;`;
-          }
-          return baseStyle;
-        }
-
-        case TemplateTableType.TABLE_3: {
-          // Match with .table3 styles
-          if (cellIndex === 0) {
-            return `${baseStyle} text-align: left; background: #d9d9d9;`;
-          }
-          if (rowIndex === 2) {
-            return `${baseStyle} background: #181818; color: #f1f1f1;`;
-          }
-          switch (cellIndex) {
-            case 1:
-              return `${baseStyle} background: #91d051;`;
-            case 2:
-              return `${baseStyle} background: #ffff00;`;
-            default:
-              return baseStyle;
-          }
-        }
-
-        case TemplateTableType.TABLE_4: {
-          console.log(rowIndex, cellIndex);
-          // Match with .table4 styles
-          if (cellIndex === 0) {
-            return `${baseStyle} text-align: left; background: #181818; color: #f1f1f1;`;
-          }
-          if (rowIndex === 0) {
-            return `${baseStyle} background: #d9d9d9;`;
-          }
-          if (rowIndex === 1) {
-            return `${baseStyle} background: #181818; color: #f1f1f1;`;
-          }
-          return baseStyle;
-        }
-
-        default:
-          return baseStyle;
+        font-family: "YouTube Sans", sans-serif;
+        min-width: 200px;
+        text-align: center;
+        white-space: nowrap;
       }
-    };
 
-    // ... maskStyle remains the same ...
+      @media (max-width: 768px) {
+        .tableCustom table td {
+          min-width: 120px !important;
+          font-size: 13px;
+        }
+      }
 
-    const maskStyle = `
-    position: absolute;
-    bottom: 0;
-    top: 0;
-    height: 100%;
-    width: 0;
-    z-index: 1;
-    transition: all 0.2s ease-in-out;
+      /* Table 1 */
+      @media (max-width: 768px) {
+        .table1 {
+          width: 100%;
+        }
+        .table1 table {
+          width: calc(6 * 120px + 5px) !important;
+        }
+      }
+      @media (min-width: 769px) {
+        .table1 tr td:nth-child(n + 2) {
+          width: fit-content;
+          min-width: 0 !important;
+        }
+        .table1 tr td:first-child {
+          width: 150px !important;
+        }
+      }
+      .table1 tr td:nth-child(1) {
+        background: #d9d9d9 !important;
+        text-align: left;
+        color: #000;
+      }
+      .table1 tr td:nth-child(2) { 
+        background: #91d051 !important;
+        color: #000;
+      }
+      .table1 tr td:nth-child(3) { 
+        background: #ffff00 !important;
+        color: #000;
+      }
+      .table1 tr td:nth-child(4) { 
+        background: #fec000 !important;
+        color: #000;
+      }
+      .table1 tr td:nth-child(5),
+      .table1 tr td:nth-child(6) { 
+        background: #ff0100 !important;
+        color: #000;
+      }
+      .table1 tr:nth-child(3) td:nth-child(n+2) {
+        background: #181818 !important;
+        color: #f1f1f1;
+      }
+
+      /* Table 2 */
+      @media (min-width: 769px) {
+        .table2 table tr td:nth-child(n + 2) {
+          width: fit-content;
+          min-width: 0 !important;
+        }
+        .table2 table tr td:first-child {
+          width: 150px !important;
+        }
+      }
+      @media (max-width: 768px) {
+        .table2 {
+          width: calc(100%);
+        }
+        .table2 table {
+          width: auto !important;
+        }
+        .table2 tr td:nth-child(n + 2) {
+          width: fit-content;
+          min-width: 0 !important;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+
+      /* Table 2 & 4 shared styles */
+      .table2 tr:nth-child(1) td,
+      .table4 tr:nth-child(1) td {
+        background: #d9d9d9 !important;
+        color: #000;
+      }
+      .table2 tr td:nth-child(1),
+      .table4 tr td:nth-child(1) {
+        text-align: left;
+        background: #181818 !important;
+        color: #f1f1f1;
+      }
+      .table2 tr:nth-child(2) td,
+      .table4 tr:nth-child(2) td {
+        color: #f1f1f1;
+        background: #181818 !important;
+      }
+
+      /* Table 3 */
+      .table3 tr td {
+        white-space: normal;
+      }
+      .table3 tr td:nth-child(1) {
+        background: #d9d9d9 !important;
+        text-align: left;
+        color: #000;
+      }
+      .table3 tr td:nth-child(2) { 
+        background: #91d051 !important;
+        color: #000;
+      }
+      .table3 tr td:nth-child(3) { 
+        background: #ffff00 !important;
+        color: #000;
+      }
+      .table3 tr:nth-child(3) td:nth-child(n+2) {
+        background: #181818 !important;
+        color: #f1f1f1;
+      }
+
+      /* Table 3 & 4 shared styles */
+      .table3 table,
+      .table4 table {
+        width: calc(3 * 200px + 2px);
+      }
+      @media (max-width: 768px) {
+        .table3 table,
+        .table4 table {
+          width: 100%;
+        }
+        .table3 tr td,
+        .table4 tr td {
+          width: calc(100% / 3) !important;
+        }
+      }
+    </style>
   `;
 
-    const maskLeftStyle = `
-    ${maskStyle}
-    left: -1px;
-    background: linear-gradient(
-      to left,
-      rgba(24, 24, 24, 0),
-      rgba(24, 24, 24, 0.12) 15%,
-      rgba(24, 24, 24, 0.21) 24%,
-      rgba(24, 24, 24, 0.55) 48%,
-      rgba(24, 24, 24, 0.76) 68%,
-      rgba(24, 24, 24, 0.9) 83%,
-      rgba(24, 24, 24, 0.98) 95%,
-      #181818
-    );
-  `;
-
-    const maskRightStyle = `
-    ${maskStyle}
-    right: -1px;
-    background: linear-gradient(
-      to right,
-      rgba(24, 24, 24, 0),
-      rgba(24, 24, 24, 0.12) 15%,
-      rgba(24, 24, 24, 0.21) 24%,
-      rgba(24, 24, 24, 0.55) 48%,
-      rgba(24, 24, 24, 0.76) 68%,
-      rgba(24, 24, 24, 0.9) 83%,
-      rgba(24, 24, 24, 0.98) 95%,
-      #181818
-    );
-  `;
-
-    return `
-    <div style="position: relative; display: flex; gap: 5px;">
-      <div style="position: relative; width: calc(100% + 15px); overflow: hidden;">
-        <div class="maskLeft" style="${maskLeftStyle}"></div>
-        <div style="width: 100%; overflow-x: auto; position: relative;">
-          <table style="width: ${getTableWidth(
-            table.type
-          )}; border-collapse: collapse; background-color: #181818;">
-            <tbody>
+  return `
+    ${styles}
+    <div class="container">
+      ${tablesArr
+        .map(
+          (table) => `
+        <div style="position: relative; width: calc(100% + 15px); overflow: hidden;">
+          <div class="tableCustom ${table.type.toLowerCase()}">
+            <table>
               ${table.data.rows
                 .map(
-                  (row: TableRow, rowIndex: number) => `
+                  (row) => `
                 <tr>
                   ${row.cells
-                    .map((cell: TableCell, cellIndex: number) => {
-                      if (cell.value === "21321___444") {
-                        console.log(
-                          rowIndex,
-                          cellIndex,
-                          table.type === TemplateTableType.TABLE_4,
-                          getCellStyle(rowIndex, cellIndex, table.type)
-                        );
-                      }
-                      return `
-                        <td style="${getCellStyle(
-                          rowIndex,
-                          cellIndex,
-                          table.type
-                        )}">
-                          ${cell.value}
-                        </td>
-                      `;
-                    })
+                    .map(
+                      (cell) => `
+                    <td>${cell.value}</td>
+                  `
+                    )
                     .join("")}
                 </tr>
               `
                 )
                 .join("")}
-            </tbody>
-          </table>
+            </table>
+          </div>
+          <div style="position: absolute; bottom: 0; left: -1px; top: 0; background: linear-gradient(to left, rgba(24,24,24,0), rgba(24,24,24,0.12) 15%, rgba(24,24,24,0.21) 24%, rgba(24,24,24,0.55) 48%, rgba(24,24,24,0.76) 68%, rgba(24,24,24,0.9) 83%, rgba(24,24,24,0.98) 95%, #181818); height: 100%; width: 0; z-index: 1; transition: all 0.2s ease-in-out;" class="maskLeft"></div>
+          <div style="position: absolute; bottom: 0; right: -1px; top: 0; background: linear-gradient(to right, rgba(24,24,24,0), rgba(24,24,24,0.12) 15%, rgba(24,24,24,0.21) 24%, rgba(24,24,24,0.55) 48%, rgba(24,24,24,0.76) 68%, rgba(24,24,24,0.9) 83%, rgba(24,24,24,0.98) 95%, #181818); height: 100%; width: 0; z-index: 1; transition: all 0.2s ease-in-out;" class="maskRight"></div>
         </div>
-        <div class="maskRight" style="${maskRightStyle}"></div>
-      </div>
-    </div>
-  `;
-  };
-  return `
-    <div style="display: flex; flex-direction: column; gap: 25px; margin-top: 5px;">
-      ${tables.map((table) => generateTableHTML(table)).join("")}
+      `
+        )
+        .join("")}
     </div>
   `;
 };
 
-const getTableDataItem = (item: any) => {
-  if (item?.table) {
-    try {
-      const tableData = JSON.parse(item?.table);
-      console.log({ tableData });
-      return tableData;
-    } catch (error) {
-      console.log("---error---", error);
-      return [];
-    }
-  }
-  return [];
-};
-
-const tablesArr = [
+const tablesArrValue = [
   {
     id: "TABLE_1-1741138037012",
     type: "TABLE_1",
@@ -370,14 +350,16 @@ const tablesArr = [
   },
 ];
 
+const TableComponent = memo(({ htmlString }: { htmlString: string }) => (
+  <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+));
+
 export default function App() {
-  const htmlString = convertTemplateTableToHTML(tablesArr as any[]);
-  // const htmlString = convertTemplateTableToHTML(getTableDataItem(tableString));
-  // console.log(getTableDataItem(tableString), htmlString);
+  const htmlString = generateTablesHTML(tablesArrValue);
+
   return (
     <div className="App">
-      <p>ABC</p>
-      {htmlString && <div dangerouslySetInnerHTML={{ __html: htmlString }} />}
+      <TableComponent htmlString={htmlString} />
     </div>
   );
 }
