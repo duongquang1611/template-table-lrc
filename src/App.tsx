@@ -194,7 +194,7 @@ export const convertTemplateTableToHTML = (tables: TableInstance[]): string => {
   `;
 
     return `
-    <div style="position: relative; display: flex; gap: 5px; flex-direction: column;">
+    <div style="position: relative; display: block; gap: 5px;">
       <div style="position: relative; width: calc(100% + 15px); overflow: hidden; margin-bottom: 25px;">
         <div class="maskLeft" style="${maskLeftStyle}"></div>
         <div style="width: 100%; overflow-x: auto; position: relative;">
@@ -240,7 +240,7 @@ export const convertTemplateTableToHTML = (tables: TableInstance[]): string => {
   `;
   };
   return `
-    <div style="display: flex; flex-direction: column; gap: 25px; margin-top: 5px;">
+    <div style="display: block; gap: 25px; margin-top: 5px;">
       ${tables.map((table) => generateTableHTML(table)).join("")}
     </div>
   `;
