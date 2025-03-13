@@ -195,7 +195,7 @@ export const convertTemplateTableToHTML = (tables: TableInstance[]): string => {
 
     return `
     <div style="position: relative; display: block; gap: 5px;">
-      <div style="position: relative; width: calc(100% + 15px); overflow: hidden; margin-bottom: 25px;">
+      <div style="position: relative; width: calc(100%); overflow: hidden; margin-bottom: 25px;">
         <div class="maskLeft" style="${maskLeftStyle}"></div>
         <div style="width: 100%; overflow-x: auto; position: relative;">
           <table style="width: ${getTableWidth(
@@ -208,14 +208,6 @@ export const convertTemplateTableToHTML = (tables: TableInstance[]): string => {
                 <tr>
                   ${row.cells
                     .map((cell: TableCell, cellIndex: number) => {
-                      if (cell.value === "21321___444") {
-                        console.log(
-                          rowIndex,
-                          cellIndex,
-                          table.type === TemplateTableType.TABLE_4,
-                          getCellStyle(rowIndex, cellIndex, table.type)
-                        );
-                      }
                       return `
                         <td style="${getCellStyle(
                           rowIndex,
@@ -373,7 +365,7 @@ const tablesArr = [
 export default function App() {
   const htmlString = convertTemplateTableToHTML(tablesArr as any[]);
   // const htmlString = convertTemplateTableToHTML(getTableDataItem(tableString));
-  // console.log(getTableDataItem(tableString), htmlString);
+  console.log("htmlString", htmlString);
   return (
     <div className="App">
       <p>ABC</p>
