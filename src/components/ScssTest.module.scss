@@ -1,0 +1,19 @@
+.test {
+  &__container {
+    padding: 1rem;
+    margin: 1rem;
+    background-color: #f3f4f6;
+    border-radius: 0.5rem;
+  }
+
+  &__heading {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1d4ed8;
+  }
+
+  &__content {
+    margin-top: 0.5rem;
+    color: #4b5563;
+  }
+}
