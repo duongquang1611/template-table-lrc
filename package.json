@@ -12,7 +12,8 @@
     "env:dev": "node scripts/switch-env.mjs dev",
     "env:stg": "node scripts/switch-env.mjs stg",
     "env:prod": "node scripts/switch-env.mjs prod",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "no-verify": "git add . && git commit --amend --no-edit --no-verify && git push origin HEAD -f"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useAuthStore } from '@/stores/auth';
 import ApiService from '@/services/api';
 import { AxiosError } from 'axios';
+import { ROUTES } from '@/constants/routes';
 
 const loginSchema = z.object({
   email: z.string().email('Email không hợp lệ'),
@@ -36,7 +37,7 @@ export default function Login() {
       setAccessToken(response.data.accessToken);
 
       // Chuyển hướng đến dashboard
-      window.location.href = '/dashboard';
+      window.location.href = ROUTES.HOME;
     } catch (error) {
       if (error instanceof AxiosError) {
         setError(error.response?.data?.message || 'Đăng nhập thất bại');

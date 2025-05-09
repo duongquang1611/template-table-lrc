@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/auth';
 import { useEffect, useState } from 'react';
+import { ROUTES } from '@/constants/routes';
 
 const mockUser = {
   name: 'User Name',
@@ -27,27 +28,21 @@ export default function Header() {
     <header className="bg-background-primary shadow-lg w-full">
       <nav className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
         <div className="flex items-center space-x-8">
-          <Link to="/" className="text-xl font-bold text-primary-700">
-            MyApp
-          </Link>
-          <Link
-            to="/"
-            className="text-text-secondary hover:text-primary-600 transition-colors font-medium"
-          >
+          <Link to={ROUTES.HOME} className="text-xl font-bold text-primary-700">
             Home
           </Link>
           <Link
-            to="/functions-list"
+            to={ROUTES.FEATURES}
             className="text-text-secondary hover:text-primary-600 transition-colors font-medium"
           >
-            Functions List
+            Features
           </Link>
         </div>
         <div className="flex items-center space-x-4">
           {user ? (
             <>
               <Link
-                to="/profile"
+                to={ROUTES.PROFILE}
                 className="flex items-center space-x-2 hover:bg-gray-100 rounded-lg px-3 py-2 transition-colors"
               >
                 {user.avatar ? (
@@ -62,7 +57,7 @@ export default function Header() {
               <button
                 onClick={() => {
                   logout();
-                  navigate('/login');
+                  navigate(ROUTES.LOGIN);
                 }}
                 className="ml-2 px-3 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition-colors text-sm"
               >
@@ -71,7 +66,7 @@ export default function Header() {
             </>
           ) : (
             <Link
-              to="/login"
+              to={ROUTES.LOGIN}
               className="px-4 py-2 rounded bg-primary-600 text-white hover:bg-primary-700 transition-colors text-sm font-medium"
             >
               Đăng nhập

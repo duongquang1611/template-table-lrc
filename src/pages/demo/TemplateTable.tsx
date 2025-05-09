@@ -105,7 +105,7 @@ const TemplateTable = () => {
 
   return (
     <div className="w-full">
-      <h1 className="text-3xl font-bold mb-6">Template Table Demo</h1>
+      <h1 className="text-3xl font-bold mb-6">Template Table Demo (Love rec)</h1>
       <div className="bg-white rounded-lg shadow-md p-6 overflow-x-auto">
         {htmlString && <div dangerouslySetInnerHTML={{ __html: htmlString }} />}
       </div>
