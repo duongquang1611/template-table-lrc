@@ -32,7 +32,7 @@ export default function Header() {
             Home
           </Link>
           <Link
-            to={ROUTES.FEATURES}
+            to={ROUTES.FEATURES.ROOT}
             className="text-text-secondary hover:text-primary-600 transition-colors font-medium"
           >
             Features

@@ -30,6 +30,7 @@ const Login = lazyLoad(() => import('@/pages/auth/Login'));
 const Features = lazyLoad(() => import('@/pages/Features'));
 const Profile = lazyLoad(() => import('@/pages/Profile'));
 const TemplateTable = lazyLoad(() => import('@/pages/demo/TemplateTable'));
+const PeaCalc = lazyLoad(() => import('@/pages/demo/PeaCalc'));
 const NotFound = lazyLoad(() => import('@/pages/NotFound'));
 
 // App Wrapper with force logout handling
@@ -56,14 +57,15 @@ export const router = createBrowserRouter(
       <Route element={<AppWrapper />} />
       <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.PROFILE} element={<Profile />} />
-      <Route path={ROUTES.FEATURES} element={<Features />} />
-      <Route path={ROUTES.DEMO_TEMPLATE_TABLE} element={<TemplateTable />} />
+      <Route path={ROUTES.FEATURES.ROOT} element={<Features />} />
+      <Route path={ROUTES.FEATURES.TEMPLATE_TABLE} element={<TemplateTable />} />
+      <Route path={ROUTES.FEATURES.PEA_CALC} element={<PeaCalc />} />
       <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route element={<AuthWrapper />}>
         {/* <Route path={ROUTES.HOME} element={<Home />} />
         <Route path={ROUTES.PROFILE} element={<Profile />} />
-        <Route path={ROUTES.FEATURES} element={<Features />} />
-        <Route path={ROUTES.DEMO_TEMPLATE_TABLE} element={<TemplateTable />} /> */}
+        <Route path={ROUTES.FEATURES.ROOT} element={<Features />} />
+         */}
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>
