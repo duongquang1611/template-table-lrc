@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/auth';
 import { useEffect, useState } from 'react';
 import { ROUTES } from '@/constants/routes';
+import { Button } from './ui/button';
 
 const mockUser = {
   name: 'User Name',
@@ -25,7 +26,7 @@ export default function Header() {
   }, [accessToken]);
 
   return (
-    <header className="bg-background-primary shadow-lg w-full">
+    <header className="bg-bg-primary shadow-lg w-full">
       <nav className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
         <div className="flex items-center space-x-8">
           <Link to={ROUTES.HOME} className="text-xl font-bold text-primary-700">
@@ -54,7 +55,7 @@ export default function Header() {
                 )}
                 <span className="text-text-secondary font-medium">{user.name}</span>
               </Link>
-              <button
+              <Button
                 onClick={() => {
                   logout();
                   navigate(ROUTES.LOGIN);
@@ -62,15 +63,18 @@ export default function Header() {
                 className="ml-2 px-3 py-2 rounded bg-red-500 text-white hover:bg-red-600 transition-colors text-sm"
               >
                 Đăng xuất
-              </button>
+              </Button>
             </>
           ) : (
-            <Link
-              to={ROUTES.LOGIN}
-              className="px-4 py-2 rounded bg-primary-600 text-white hover:bg-primary-700 transition-colors text-sm font-medium"
-            >
-              Đăng nhập
-            </Link>
+            <>
+              <Button>aaaa</Button>
+              <Link
+                to={ROUTES.LOGIN}
+                className="px-4 py-2 rounded bg-primary-600 text-white hover:bg-primary-700 transition-colors text-sm font-medium"
+              >
+                Đăng nhập
+              </Link>
+            </>
           )}
         </div>
       </nav>
