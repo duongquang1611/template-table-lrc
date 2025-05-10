@@ -1,5 +1,6 @@
 import React from 'react';
 import { convertTemplateTableToHTML } from '../../utils/tableUtils';
+import MainLayout from '@/layouts/MainLayout';
 
 const tablesArr = [
   {
@@ -104,12 +105,14 @@ const TemplateTable = () => {
   const htmlString = convertTemplateTableToHTML(tablesArr as any[]);
 
   return (
-    <div className="w-full">
-      <h1 className="text-3xl font-bold mb-6">Template Table Demo (Love rec)</h1>
-      <div className="bg-white rounded-lg shadow-md p-6 overflow-x-auto">
-        {htmlString && <div dangerouslySetInnerHTML={{ __html: htmlString }} />}
+    <MainLayout>
+      <div className="w-full">
+        <h1 className="text-3xl font-bold mb-6">Template Table Demo (Love rec)</h1>
+        <div className="bg-white rounded-lg shadow-md p-6 overflow-x-auto">
+          {htmlString && <div dangerouslySetInnerHTML={{ __html: htmlString }} />}
+        </div>
       </div>
-    </div>
+    </MainLayout>
   );
 };
 

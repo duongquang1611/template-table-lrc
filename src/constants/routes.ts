@@ -2,8 +2,11 @@ export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
   PROFILE: '/profile',
-  FEATURES: '/features',
-  DEMO_TEMPLATE_TABLE: '/features/template-table',
+  FEATURES: {
+    ROOT: '/features',
+    TEMPLATE_TABLE: '/features/template-table',
+    PEA_CALC: '/features/pea-calc',
+  },
   NOT_FOUND: '/404',
 } as const;
 
