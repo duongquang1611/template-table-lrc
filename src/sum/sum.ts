@@ -1,4 +1,5 @@
 // sum.js
-export function sum(a, b) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function sum(a: any, b: any) {
   return a + b;
 }
